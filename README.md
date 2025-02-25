@@ -11,7 +11,7 @@ This driver provides **a modular and cross-platform implementation**, making it 
 
 
 ## **Features**  
-- **Cross-Platform** – Works with **STM32, ESP32, AVR, ARM Cortex-M, Arduino, and more**  
+- **Cross-Platform** – Works with **STM32, ESP32, Arduino, and more**  
 - **Supports Any HAL** – Uses function pointers for communication (I2C/SPI)  
 - **Accelerometer, Gyroscope & Temperature Readings**  
 - **Self-Test & Digital Low-Pass Filter (DLPF) Configuration**  
