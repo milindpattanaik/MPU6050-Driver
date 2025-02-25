@@ -57,6 +57,7 @@ mpu_status_t mpu6050_set_dlpf(mpu6050_t *dev, mpu_dlpf_t dlpf) {
     if (dev->comm.write(dev->address, MPU6050_PWR_MGMT_1, &data, 1) != 0) {
         return MPU_6050_ERR_COMM;
     }
+    
     return MPU6050_OK;
 }
 
