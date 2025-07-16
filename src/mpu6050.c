@@ -14,29 +14,33 @@ mpu_status_t mpu6050_init(mpu6050_t *dev) {
 
     if (MPU6050_WHO_AM_I_VALUE == MPU6050_WHO_AM_I_DEFAULT_VALUE) {
         
-        uint8_t data;
+        uint8_t buf[2];
 
-        data = 0x00;
-        if (dev->comm.write(dev->address, MPU6050_PWR_MGMT_1, &data, 1) != 0) {
+        buf[0] = MPU6050_PWR_MGMT_1;
+        buf[1] = 0x00;
+        if (dev->comm.write(dev->address, buf, 2) != 0) {
             return MPU_6050_ERR_COMM;
         }
         
         // Set Sample Rate Divider
         // Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV)
-        data = 0x07;
-        if (dev->comm.write(dev->address, MPU6050_SMPLRT_DIV, &data, 1) != 0) {
+        buf[0] = MPU6050_SMPLRT_DIV;
+        buf[1] = 0x07;
+        if (dev->comm.write(dev->address, buf, 2) != 0) {
             return MPU_6050_ERR_COMM;
         }
 
         // Set Gyro Range
-        data = (dev->gyro_range << 3);
-        if (dev->comm.write(dev->address, MPU6050_GYRO_CONFIG, &data, 1) != 0) {
+        buf[0] = MPU6050_GYRO_CONFIG;
+        buf[1] = (dev->gyro_range << 3);
+        if (dev->comm.write(dev->address, buf, 2) != 0) {
             return MPU_6050_ERR_COMM;
         }
 
         // Set Accel Range
-        data = (dev->accel_range << 3);
-        if (dev->comm.write(dev->address, MPU6050_ACCEL_CONFIG, &data, 1) != 0) {
+        buf[0] = MPU6050_ACCEL_CONFIG;
+        buf[1] = (dev->accel_range << 3);
+        if (dev->comm.write(dev->address, buf, 2) != 0) {
             return MPU_6050_ERR_COMM;
         }
     } else {
@@ -53,8 +57,8 @@ mpu_status_t mpu6050_set_dlpf(mpu6050_t *dev, mpu_dlpf_t dlpf) {
         return MPU_6050_ERR_PARAM;
     }
 
-    uint8_t data = dlpf;
-    if (dev->comm.write(dev->address, MPU6050_PWR_MGMT_1, &data, 1) != 0) {
+    uint8_t buf[2] = {MPU6050_CONFIG, dlpf};
+    if (dev->comm.write(dev->address, buf, 2) != 0) {
         return MPU_6050_ERR_COMM;
     }
     
@@ -193,7 +197,7 @@ mpu_status_t mpu6050_get_temp(mpu6050_t *dev, mpu6050_temp_data_t *temp) {
 
     // Temperature in degrees Celcius
     int16_t raw_temp = (int16_t)((buffer[0] << 8) | buffer[1]);
-    temp->temperature = raw_temp / 340.0f + 36.53f;
+    temp->temperature = (raw_temp / 340.0f) + 36.53f;
 
     return MPU6050_OK;
 }

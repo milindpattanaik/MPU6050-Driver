@@ -73,8 +73,8 @@ typedef struct {
 
 // Communication Interface
 typedef struct {
-    int8_t (*read)(uint8_t addr, uint8_t reg, uint8_t *data, uint8_t len);
-    int8_t (*write)(uint8_t addr, uint8_t reg, uint8_t *data, uint8_t len);
+    int8_t (*read)(uint8_t addr, uint8_t start_reg, uint8_t *buf, uint32_t len);
+    int8_t (*write)(uint8_t addr, uint8_t *buf, uint32_t len);
     void (*delay)(uint32_t ms);
 } mpu6050_comm_t;
 

@@ -11,6 +11,9 @@
 // Power Management 2 Register
 #define MPU6050_PWR_MGMT_2 0x6C
 
+// MPU6050 Config Register
+#define MPU6050_CONFIG 0x1A
+
 // Gyroscope Configuration Register
 #define MPU6050_GYRO_CONFIG 0x1B
 
